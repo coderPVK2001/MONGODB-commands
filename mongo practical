@@ -1,0 +1,302 @@
+
+DATA :- 
+[
+  {
+    "_id": {
+      "$oid": "68e23d6007e77e37c4968018"
+    },
+    "stud_roll": 43,
+    "marks": 22,
+    "name": "tommy",
+    "Div": "B",
+    "city": "Pune"
+  },
+  {
+    "_id": {
+      "$oid": "68e23d6007e77e37c4968019"
+    },
+    "stud_roll": 44,
+    "marks": 90,
+    "name": "rocky",
+    "Div": "A",
+    "city": "Mumbai"
+  },
+  {
+    "_id": {
+      "$oid": "68e23d6007e77e37c496801a"
+    },
+    "stud_roll": 45,
+    "marks": 34,
+    "name": "rohit",
+    "Div": "A",
+    "city": "Delhi"
+  },
+  {
+    "_id": {
+      "$oid": "68e23d6007e77e37c496801b"
+    },
+    "stud_roll": 46,
+    "marks": 77,
+    "name": "sita",
+    "Div": "B",
+    "city": "Pune"
+  },
+  {
+    "_id": {
+      "$oid": "68e23d6007e77e37c496801c"
+    },
+    "stud_roll": 47,
+    "marks": 56,
+    "name": "ram",
+    "Div": "C",
+    "city": "Chennai"
+  }
+]
+
+-------------------------------------------------------------------------------
+Q.show All data where we want to see two fields like name and marks only 
+-------------------------------------------------------------------------------
+-->
+db.students.find({}, {name:1,marks:1})
+
+output:- 
+[
+  {
+    "_id": {
+      "$oid": "68e23d6007e77e37c4968018"
+    },
+    "marks": 22,
+    "name": "tommy"
+  },
+  {
+    "_id": {
+      "$oid": "68e23d6007e77e37c4968019"
+    },
+    "marks": 90,
+    "name": "rocky"
+  },
+  {
+    "_id": {
+      "$oid": "68e23d6007e77e37c496801a"
+    },
+    "marks": 34,
+    "name": "rohit"
+  },
+  {
+    "_id": {
+      "$oid": "68e23d6007e77e37c496801b"
+    },
+    "marks": 77,
+    "name": "sita"
+  },
+  {
+    "_id": {
+      "$oid": "68e23d6007e77e37c496801c"
+    },
+    "marks": 56,
+    "name": "ram"
+  }
+]
+
+-------------------------------------------------------------------------------
+Q. find students name and marks whose roll is 46
+-------------------------------------------------------------------------------
+-->
+db.students.find({stud_roll:46},{name:1,marks:1})
+
+output :- 
+[
+  {
+    "_id": {
+      "$oid": "68e23d6007e77e37c496801b"
+    },
+    "marks": 77,
+    "name": "sita"
+  }
+]
+
+//
+// 
+
+-------------------------------------------------------------------------------
+Q. find students whose marks greater than 50 
+-------------------------------------------------------------------------------
+-->
+db.students.find({marks:{$gt:50}})
+
+output:- 
+
+[
+  {
+    "_id": {
+      "$oid": "68e23d6007e77e37c4968019"
+    },
+    "stud_roll": 44,
+    "marks": 90,
+    "name": "rocky",
+    "Div": "A",
+    "city": "Mumbai"
+  },
+  {
+    "_id": {
+      "$oid": "68e23d6007e77e37c496801b"
+    },
+    "stud_roll": 46,
+    "marks": 77,
+    "name": "sita",
+    "Div": "B",
+    "city": "Pune"
+  },
+  {
+    "_id": {
+      "$oid": "68e23d6007e77e37c496801c"
+    },
+    "stud_roll": 47,
+    "marks": 56,
+    "name": "ram",
+    "Div": "C",
+    "city": "Chennai"
+  }
+]
+
+
+-------------------------------------------------------------------------------
+Q. find in Div A whose marks greater than 50 whom got it?
+-------------------------------------------------------------------------------
+-->
+db.students.find({$and:[{Div:"A"},{marks:{$gt:50}}]})
+
+output:-
+[
+  {
+    "_id": {
+      "$oid": "68e23d6007e77e37c4968019"
+    },
+    "stud_roll": 44,
+    "marks": 90,
+    "name": "rocky",
+    "Div": "A",
+    "city": "Mumbai"
+  }
+]
+
+
+-------------------------------------------------------------------------------
+Q. find students whose city is pune or delhi
+-------------------------------------------------------------------------------
+-->
+db.students.find({$or:[{city:"Pune"},{city:"Delhi"}]});
+
+output:- 
+[
+  {
+    "_id": {
+      "$oid": "68e23d6007e77e37c4968018"
+    },
+    "stud_roll": 43,
+    "marks": 22,
+    "name": "tommy",
+    "Div": "B",
+    "city": "Pune"
+  },
+  {
+    "_id": {
+      "$oid": "68e23d6007e77e37c496801a"
+    },
+    "stud_roll": 45,
+    "marks": 34,
+    "name": "rohit",
+    "Div": "A",
+    "city": "Delhi"
+  },
+  {
+    "_id": {
+      "$oid": "68e23d6007e77e37c496801b"
+    },
+    "stud_roll": 46,
+    "marks": 77,
+    "name": "sita",
+    "Div": "B",
+    "city": "Pune"
+  }
+]
+
+-------------------------------------------------------------------------------
+Q. fetch students details whose marks are 77 or 34 or 22 by using IN operator
+-------------------------------------------------------------------------------
+-->
+db.students.find({ marks: { $in: [77, 34,22]
+
+output :- 
+[
+  {
+    "_id": {
+      "$oid": "68e23d6007e77e37c4968018"
+    },
+    "stud_roll": 43,
+    "marks": 22,
+    "name": "tommy",
+    "Div": "B",
+    "city": "Pune"
+  },
+  {
+    "_id": {
+      "$oid": "68e23d6007e77e37c496801a"
+    },
+    "stud_roll": 45,
+    "marks": 34,
+    "name": "rohit",
+    "Div": "A",
+    "city": "Delhi"
+  },
+  {
+    "_id": {
+      "$oid": "68e23d6007e77e37c496801b"
+    },
+    "stud_roll": 46,
+    "marks": 77,
+    "name": "sita",
+    "Div": "B",
+    "city": "Pune"
+  }
+]
+
+-------------------------------------------------------------------------------
+Q. fetch students details like name and city only where city is pune or delhi
+-------------------------------------------------------------------------------
+-->
+db.students.find({$or:[{city:"Pune"},{city:"Delhi"}]},{name:1,city:1});
+
+output:-
+[
+  {
+    "_id": {
+      "$oid": "68e23d6007e77e37c4968018"
+    },
+    "name": "tommy",
+    "city": "Pune"
+  },
+  {
+    "_id": {
+      "$oid": "68e23d6007e77e37c496801a"
+    },
+    "name": "rohit",
+    "city": "Delhi"
+  },
+  {
+    "_id": {
+      "$oid": "68e23d6007e77e37c496801b"
+    },
+    "name": "sita",
+    "city": "Pune"
+  }
+]
+
+-------------------------------------------------------------------------------
+Q. Delete one and delete manny commands
+-------------------------------------------------------------------------------
+-->
+db.students.deleteOne({ name: "ram" })
+db.students.deleteMany({ marks: { $lt: 30 } })
+
+
