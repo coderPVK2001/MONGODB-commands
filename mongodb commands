@@ -40,6 +40,10 @@ db.table33.find({"marks":98});
 -->
 db.”collectionName”.drop( );
 
+🗑️ Delete Commands
+db.students.deleteOne({ name: "ram" })
+db.students.deleteMany({ marks: { $lt: 30 } })
+
 ## RENAMING ===================>
 
 **Rename collection
@@ -85,6 +89,14 @@ db.table33.find().sort({"marks":-1});
 **Ascending order
 db.table33.find().sort({"marks":1}); 
 
+## COUNTING ===============================>
+
+**count documents
+-->
+db.students.countDocuments() 
+
+**count total students available in by div A.
+db.students.countDocuments({ Div: "A" }) 
 
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
