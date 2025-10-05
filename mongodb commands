@@ -1,0 +1,163 @@
+**use database/create database  .
+--> 
+use "dbname"  //it will create if not exists then
+
+**To see list of db.
+--> 
+show dbs
+
+------------------------------------------------------------------------------------------
+collections
+------------------------------------------------------------------------------------------
+
+**To see list of collections
+-->
+show collections
+
+## CREATION ===============>
+
+**To create collection
+-->
+db.createCollection("collection_name");
+
+## FETCHING /READING ===============>
+
+**To see list of documents in particular collection.
+-->
+db."collection_name".find();
+
+**limit the no. of documents in particular collection
+-->
+db."collection_name".find().limit(2);
+
+**find by some field name like whose marks is 98.
+-->
+db.table33.find({"marks":98});
+
+## DELETION ===============>
+
+**Deleting collection
+-->
+db.”collectionName”.drop( );
+
+## RENAMING ===================>
+
+**Rename collection
+-->
+db.tabledemo.renameCollection("table33");
+
+##INSERTION  ===============>
+
+**Insert one document 
+--> 
+db.”collectionName”.insertOne( { } );
+
+** Inserting multiple docs insertions 
+-->
+db.”collectionName”.insertMany([ { }, { } ]);
+eg:-  for adding many values at once
+db.clover.insertMany( [ { name : "jack" , age: 23, experience :1}, 
+                        { name : "lucky" , age: 28, experience :5} ] );
+
+## UPDATION =================>
+
+Note:- 
+$set used 
+
+** Updating one document 
+-->
+db.clover.updateOne( { name:"pankaj"}, { $set:{experience :11}});
+
+**for update many you should add to multiple fields from one name only for 
+-->
+db."collectionName".updateMany({ findCondition }, { $set: { whatToChange } })
+eg:- 
+db.employees.updateMany(
+  { department: "HR" },
+  { $set: { department: "Human Resources"} }
+);
+
+## SORTING ====================================>
+
+**Descending order
+db.table33.find().sort({"marks":-1});
+
+**Ascending order
+db.table33.find().sort({"marks":1}); 
+
+
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+OPERATIONS ========================
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+DATA ------->
+[
+  {
+    "_id": {
+      "$oid": "68e22f168f75b660b2eb00e9"
+    },
+    "stud_roll": 43,
+    "marks": 22,
+    "name": "tommy"
+  },
+  {
+    "_id": {
+      "$oid": "68e22fae16ce5d6eda2b4a9d"
+    },
+    "stud_roll": 44,
+    "marks": 90,
+    "name": "rocky"
+  },
+  {
+    "_id": {
+      "$oid": "68e22fae16ce5d6eda2b4a9e"
+    },
+    "stud_roll": 45,
+    "marks": 34,
+    "name": "rohit"
+  }
+]
+
+Q. Adding Div A fields in all docs
+-->
+ db.table33.updateMany({},
+     {$set: {"Div":"A"} } 
+ );
+
+Output ::-->
+ 
+[
+  {
+    "_id": {
+      "$oid": "68e22f168f75b660b2eb00e9"
+    },
+    "stud_roll": 43,
+    "marks": 22,
+    "name": "tommy",
+    "Div": "B"
+  },
+  {
+    "_id": {
+      "$oid": "68e22fae16ce5d6eda2b4a9d"
+    },
+    "stud_roll": 44,
+    "marks": 90,
+    "name": "rocky",
+    "Div": "A"
+  },
+  {
+    "_id": {
+      "$oid": "68e22fae16ce5d6eda2b4a9e"
+    },
+    "stud_roll": 45,
+    "marks": 34,
+    "name": "rohit",
+    "Div": "A"
+  }
+]
+ 
+
+
+
