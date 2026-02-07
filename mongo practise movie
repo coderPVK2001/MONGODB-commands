@@ -1,0 +1,336 @@
+1) Create a database named streamingDB and a collection called watchHistory
+-->
+use streamingDB
+
+db.watchHistory.insertMany([
+  {
+    userName: "Arjun",
+    plan: "Premium",
+    movieTitle: "Inception",
+    genre: "Sci-Fi",
+    watchTime: 148,
+    device: "TV",
+    watchedOn: new Date("2024-01-10")
+  },
+  {
+    userName: "Sneha",
+    plan: "Basic",
+    movieTitle: "Jab We Met",
+    genre: "Romance",
+    watchTime: 138,
+    device: "Mobile",
+    watchedOn: new Date("2024-01-12")
+  },
+  {
+    userName: "Arjun",
+    plan: "Premium",
+    movieTitle: "Interstellar",
+    genre: "Sci-Fi",
+    watchTime: 169,
+    device: "Laptop",
+    watchedOn: new Date("2024-01-15")
+  },
+ {
+    userName: "Pankaj",
+    plan: "Basic",
+    movieTitle: "Dhurandar",
+    genre: "adventure",
+    watchTime: 190,
+    device: "Laptop",
+    watchedOn: new Date("2024-01-11")
+ }
+])
+
+2) Fetch All Records
+-->
+db.watchHistory.find().pretty()
+
+3) Find all Premium plan users.
+-->
+ db.watchHistory.find({plan:'Premium'}).pretty();
+
+{
+        "_id" : ObjectId("6986d28f0239f0e5747ff241"),
+        "userName" : "Arjun",
+        "plan" : "Premium",
+        "movieTitle" : "Inception",
+        "genre" : "Sci-Fi",
+        "watchTime" : 148,
+        "device" : "TV",
+        "watchedOn" : ISODate("2024-01-10T00:00:00Z")
+}
+{
+        "_id" : ObjectId("6986d28f0239f0e5747ff243"),
+        "userName" : "Arjun",
+        "plan" : "Premium",
+        "movieTitle" : "Interstellar",
+        "genre" : "Sci-Fi",
+        "watchTime" : 169,
+        "device" : "Laptop",
+        "watchedOn" : ISODate("2024-01-15T00:00:00Z")
+}
+
+
+4) Find all movies watched under Sci-Fi genre.
+-->
+db.watchHistory.find({genre:"Sci-Fi"}).pretty();
+
+{
+        "_id" : ObjectId("6986d28f0239f0e5747ff241"),
+        "userName" : "Arjun",
+        "plan" : "Premium",
+        "movieTitle" : "Inception",
+        "genre" : "Sci-Fi",
+        "watchTime" : 148,
+        "device" : "TV",
+        "watchedOn" : ISODate("2024-01-10T00:00:00Z")
+}
+{
+        "_id" : ObjectId("6986d28f0239f0e5747ff243"),
+        "userName" : "Arjun",
+        "plan" : "Premium",
+        "movieTitle" : "Interstellar",
+        "genre" : "Sci-Fi",
+        "watchTime" : 169,
+        "device" : "Laptop",
+        "watchedOn" : ISODate("2024-01-15T00:00:00Z")
+}
+
+5) Find movies with watchTime more than 150 minutes.
+-->
+db.watchHistory.find({watchTime:{$gt:150}}).pretty();
+
+{
+        "_id" : ObjectId("6986d28f0239f0e5747ff243"),
+        "userName" : "Arjun",
+        "plan" : "Premium",
+        "movieTitle" : "Interstellar",
+        "genre" : "Sci-Fi",
+        "watchTime" : 169,
+        "device" : "Laptop",
+        "watchedOn" : ISODate("2024-01-15T00:00:00Z")
+}
+{
+        "_id" : ObjectId("6986d5ea6a725be5668acc45"),
+        "userName" : "Pankaj",
+        "plan" : "Basic",
+        "movieTitle" : "Dhurandar",
+        "genre" : "adventure",
+        "watchTime" : 190,
+        "device" : "Laptop",
+        "watchedOn" : ISODate("2024-01-11T00:00:00Z")
+}
+
+6)Find movies watched on TV by Premium users.
+-->
+ db.watchHistory.find({   plan: "Premium",   device: "TV" }).pretty();
+{
+        "_id" : ObjectId("6986d28f0239f0e5747ff241"),
+        "userName" : "Arjun",
+        "plan" : "Premium",
+        "movieTitle" : "Inception",
+        "genre" : "Sci-Fi",
+        "watchTime" : 148,
+        "device" : "TV",
+        "watchedOn" : ISODate("2024-01-10T00:00:00Z")
+}
+
+2nd way using and operator=====>  
+db.watchHistory.find({
+   $and: [
+     { plan: "Premium" },
+     { device: "TV" }
+   ]
+ })
+
+Note :--Use $and when:
+You have multiple conditions on the same field
+
+eg :-
+❌ This will NOT work:
+
+db.watchHistory.find({
+  watchTime: { $gt: 100, $lt: 160 }
+})
+
+
+✅ Correct using $and:
+
+db.watchHistory.find({
+  $and: [
+    { watchTime: { $gt: 100 } },
+    { watchTime: { $lt: 160 } }
+  ]
+})
+
+🔁 UPDATE / DELETE PRACTICE
+7) Update Sneha’s plan from Basic → Premium.
+-->
+db.watchHistory.updateMany(
+  { userName: "Sneha" },
+  { $set: { plan: "Premium" } }
+)
+
+8) Add field ratingGiven: 5 for Sci-Fi movies.
+-->
+db.watchHistory.updateMany({genre:"Sci-Fi"},{$set:{ratingGiven:5}});
+{ "acknowledged" : true, "matchedCount" : 2, "modifiedCount" : 2 }
+
+db.watchHistory.find().pretty()
+{
+        "_id" : ObjectId("6986d28f0239f0e5747ff241"),
+        "userName" : "Arjun",
+        "plan" : "Premium",
+        "movieTitle" : "Inception",
+        "genre" : "Sci-Fi",
+        "watchTime" : 148,
+        "device" : "TV",
+        "watchedOn" : ISODate("2024-01-10T00:00:00Z"),
+        "ratingGiven" : 5
+}
+{
+        "_id" : ObjectId("6986d28f0239f0e5747ff242"),
+        "userName" : "Sneha",
+        "plan" : "Basic",
+        "movieTitle" : "Jab We Met",
+        "genre" : "Romance",
+        "watchTime" : 138,
+        "device" : "Mobile",
+        "watchedOn" : ISODate("2024-01-12T00:00:00Z")
+}
+{
+        "_id" : ObjectId("6986d28f0239f0e5747ff243"),
+        "userName" : "Arjun",
+        "plan" : "Premium",
+        "movieTitle" : "Interstellar",
+        "genre" : "Sci-Fi",
+        "watchTime" : 169,
+        "device" : "Laptop",
+        "watchedOn" : ISODate("2024-01-15T00:00:00Z"),
+        "ratingGiven" : 5
+}
+{
+        "_id" : ObjectId("6986d5ea6a725be5668acc45"),
+        "userName" : "Pankaj",
+        "plan" : "Basic",
+        "movieTitle" : "Dhurandar",
+        "genre" : "adventure",
+        "watchTime" : 190,
+        "device" : "Laptop",
+        "watchedOn" : ISODate("2024-01-11T00:00:00Z")
+}
+
+To remove ratinggiven field which set earlier :- 
+db.watchHistory.updateMany(
+  { genre: "Sci-Fi" },
+  { $unset: { ratingGiven: "" } }
+)
+
+9) Delete watch history where watchTime < 140.
+-->
+db.watchHistory.deleteMany({
+  watchTime: { $lt: 140 }
+})
+
+🚀 SORTING '
+
+10) do sort by watch time of movies in descending.
+--> 
+db.watchHistory.find().sort({watchTime:-1}).pretty()   //for ascending use +1
+
+2nd way:-
+db.watchHistory.aggregate([
+  { $sort: { watchTime: -1 } }
+])
+
+output :- 
+{
+        "_id" : ObjectId("6986d5ea6a725be5668acc45"),
+        "userName" : "Pankaj",
+        "plan" : "Basic",
+        "movieTitle" : "Dhurandar",
+        "genre" : "adventure",
+        "watchTime" : 190,
+        "device" : "Laptop",
+        "watchedOn" : ISODate("2024-01-11T00:00:00Z")
+}
+{
+        "_id" : ObjectId("6986d28f0239f0e5747ff243"),
+        "userName" : "Arjun",
+        "plan" : "Premium",
+        "movieTitle" : "Interstellar",
+        "genre" : "Sci-Fi",
+        "watchTime" : 169,
+        "device" : "Laptop",
+        "watchedOn" : ISODate("2024-01-15T00:00:00Z")
+}
+{
+        "_id" : ObjectId("6986d28f0239f0e5747ff241"),
+        "userName" : "Arjun",
+        "plan" : "Premium",
+        "movieTitle" : "Inception",
+        "genre" : "Sci-Fi",
+        "watchTime" : 148,
+        "device" : "TV",
+        "watchedOn" : ISODate("2024-01-10T00:00:00Z")
+}
+{
+        "_id" : ObjectId("6986d28f0239f0e5747ff242"),
+        "userName" : "Sneha",
+        "plan" : "Basic",
+        "movieTitle" : "Jab We Met",
+        "genre" : "Romance",
+        "watchTime" : 138,
+        "device" : "Mobile",
+        "watchedOn" : ISODate("2024-01-12T00:00:00Z")
+}
+
+11) sort and print only username and watchtime.
+--> 
+db.watchHistory.find(
+   {},
+   { userName: 1, watchTime: 1, _id: 0 }
+ ).sort({ watchTime: -1 }).pretty()
+
+output :- 
+{ "userName" : "Pankaj", "watchTime" : 190 }
+{ "userName" : "Arjun", "watchTime" : 169 }
+{ "userName" : "Arjun", "watchTime" : 148 }
+{ "userName" : "Sneha", "watchTime" : 138 }
+
+
+🚀 AGGREGATION
+
+11) Total Watch Time Per User
+-->
+db.watchHistory.aggregate(
+  {
+    $group:{
+    _id:"$userName",
+    TotalwatchTime:{ $sum:"$watchTime"}
+     }
+   }
+ )
+
+output :- 
+{ "_id" : "Sneha", "TotalwatchTime" : 138 }
+{ "_id" : "Pankaj", "TotalwatchTime" : 190 }
+{ "_id" : "Arjun", "TotalwatchTime" : 317 }
+
+12) 
+-->
+db.watchHistory.aggregate([
+  {
+    $group: {
+      _id: "$genre",
+      totalTime: { $sum: "$watchTime" }
+    }
+  },
+  { $sort: { totalTime: -1 } },
+  { $limit: 1 }
+])
+
+output :- 
+{ "_id" : "Sci-Fi", "TotalWatchTime" : 317 }
+
+
